@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "80:3000"
+    environment:
+      - MONGO_URI=mongodb://localhost:27017/mydb
+      - PORT=3000
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+volumes:
+  mongo-data:
+networks:
+  app-network:
+    driver: bridge
